@@ -1,0 +1,17 @@
+CREATE TABLE `tv_audience`(
+  `channel_id` int, 
+  `slot` int, 
+  `week` int, 
+  `genre_id` int, 
+  `subgenre_id` int, 
+  `user_id` string, 
+  `program_id` string, 
+  `event_id` string, 
+  `duration` int)
+  
+ CREATE TABLE `tv_audience_kpi_1`(
+  `program_id` string, 
+  `channel_id` string, 
+  `slot` int, 
+  `num_minutes` int)
+COMMENT 'Tabla usada para medir KPI: minutos vistos de un programa en un canal por hora'
