@@ -22,6 +22,7 @@ Una vez analizado el Data Set el siguiente paso es seleccionar un KPI para desar
 * **program ID:** it is the id of the program. The same program can occur multiple times (e.g. a tv show).
 * **channel ID:** channel id from 1 to 217.
 * **slot:** hour inside the week relative to the start of the view, from 1 to 24*7 = 168.
+* **week:** week from 1 to 19. Weeks 14 and 19 should not be used because they contain errors.
 * **minutes:** total minutes.
 
 ## Métricas
