@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS tv-audience_landing 
 COMMENT 'BBDD usada para cargar del dataset los datos en crudo' 
-location = '/tfm/tv-audience/landing'
+location '/tfm/tv-audience/landing';
 
 CREATE TABLE IF NOT EXISTS `tv_audience`
 (
@@ -17,4 +17,4 @@ CREATE TABLE IF NOT EXISTS `tv_audience`
 PARTITIONED BY (time bigint)
 COMMENT 'Tabla con los datos en crudo de tv_audience'
 ROW FORMAT DELIMITED
-FIELDS TERMINATED BY ','
+FIELDS TERMINATED BY ',';
