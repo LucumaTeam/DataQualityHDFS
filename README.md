@@ -25,6 +25,16 @@ Una vez analizado el Data Set el siguiente paso es seleccionar un KPI para desar
 * **week:** week from 1 to 19. Weeks 14 and 19 should not be used because they contain errors.
 * **minutes:** total minutes.
 
+## DataWarehouse
+
+El almacén de datos usado por el proceso ETL, está basado en HDFS y usa como infraestructura de almacenamiento HIVE. Este almacén está compuesto por las siguientes BBDD:
+
+* **Landing:** Esta base de datos se usa para almacenar los datos provenientes de los ficheros csv cargados sin ningún tipo de procesamiento, de esta manera podremos tener historificados los ficheros provenientes de la fuente. Contiene una tabla compuesta por todas las columnas de dataset sin procesar. Está particionada por la hora a la que se insertó en HDFS.
+* **Preparation:** Usamos esta base de datos para almacenar los datos procesados. Se cargan los datos que provienen de la base de datos landing y se validan para cumplir las reglas de negocio. Contiene una tabla compuesta por todas las columnas de dataset tipados. Está particionada por las columnas temporales slot y week. 
+* **KPI:** Base de datos que usamos para almacenar los diferentes KPI's. Los datos se generan a partir de la base de datos preparation. En un principio está compuesta por el KPI descrito en el apartado anterior.
+
+Los diferentes esquemas de HIVE están especificados en el directorio del repositorio src/data
+
 ## Métricas
 
 Una vez establecido el KPI es necesario seleccionar unas métrica de referencia para evaluar el impacto en los indicador clave de rendimiento.
