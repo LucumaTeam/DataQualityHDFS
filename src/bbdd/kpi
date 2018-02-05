@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS tv_audience_kpi 
+COMMENT 'BBDD usada para cargar los kpi' 
+LOCATION '/tfm/tv-audience/kpi';
