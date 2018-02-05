@@ -1,8 +1,0 @@
-insert into tv_audience_kpi_1
-SELECT
-t.program_id,
-t.channel_id,
-t.slot,
-sum(t.duration) as numero_min
-FROM tv_audience t
-group by t.program_id,t.channel_id,t.slot
