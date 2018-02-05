@@ -39,9 +39,11 @@ Los diferentes esquemas de HIVE están especificados en el directorio del reposi
 
 La orquestación de las tareas necesarias para construir la ETL usa como tecnología oozie. El proceso de ETL está compuesto por los siguientes workflows:
 
-* **Carga Fichero:** * Workflow que usamos para cargar los ficheros csv procedentes de una fuente externa a nuestro sistema HDFS. Una vez importados en HDFS tienen que ser cargados en la base de datos landing de HIVE. El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflowfileload.xml
-* **Preparación datos:** * Workflow usado para cargar los datos almacenados en landing, validarlos, darles formato y almacenarlos en la base de datos preparation de HIVE. Usaremos Spark, pendiente de desarrollo.
+* **Carga Fichero:** Workflow que usamos para cargar los ficheros csv procedentes de una fuente externa a nuestro sistema HDFS. Una vez importados en HDFS tienen que ser cargados en la base de datos landing de HIVE. El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflowfileload.xml
+* **Preparación datos:** Workflow usado para cargar los datos almacenados en landing, validarlos, darles formato y almacenarlos en la base de datos preparation de HIVE. Usaremos Spark, pendiente de desarrollo.
 * **Construir KPI:** Workflow usado para construir los diferentes KPI's y almacenarlos en la base de datos KPI de HIVE. Usaremos Spark, pendiente de desarrollo.
+
+Todos estos Worflows estarán coordinados a traves de un coordinador de Oozie, pendiente de desarrollo.
 
 ## Métricas
 
