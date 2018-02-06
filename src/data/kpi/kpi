@@ -1,3 +1,21 @@
 CREATE DATABASE IF NOT EXISTS tv_audience_kpi 
 COMMENT 'BBDD usada para cargar los kpi' 
 LOCATION '/tfm/tv-audience/kpi';
+
+CREATE TABLE IF NOT EXISTS  `kpi`(
+  `id` int, 
+  `name` string, 
+  `description` string)
+COMMENT 'Tabla con los Id's de los KPIs'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',';
+
+CREATE TABLE IF NOT EXISTS  `kpi_by_ch_pr_we_sl`(
+  `channel_id` int, 
+  `program_id` string,
+  `kpi_id` int,
+  `value` decimal(38,2))
+COMMENT 'Tabla con los datos en crudo de tv_audience'
+PARTITIONED BY (`week` int,`slot` int) 
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',';
