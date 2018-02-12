@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS  `kpi`(
   `id` int, 
   `name` string, 
   `description` string)
-COMMENT 'Tabla con los Id's de los KPIs'
+COMMENT 'Tabla con los Ids de los KPIs'
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ',';
 
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS  `kpi_by_ch_pr_we_sl`(
   `program_id` string,
   `kpi_id` int,
   `value` decimal(38,2))
-COMMENT 'Tabla con los datos en crudo de tv_audience'
+COMMENT 'Tabla con los KPIs agrupados por week,slot,channel, program'
 PARTITIONED BY (`week` int,`slot` int) 
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ',';
