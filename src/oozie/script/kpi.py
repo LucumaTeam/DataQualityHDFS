@@ -1,7 +1,3 @@
-import findspark
-import os
-os.environ['SPARK_HOME']='/usr/hdp/2.6.3.0-235/spark'
-findspark.init()
 import pyspark
 from pyspark.context import SparkContext
 from pyspark.sql import HiveContext,SQLContext,Row
