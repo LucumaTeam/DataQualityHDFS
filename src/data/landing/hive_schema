@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS tv-audience_landing 
+CREATE DATABASE IF NOT EXISTS tv_audience_landing 
 COMMENT 'BBDD usada para cargar del dataset los datos en crudo' 
 location '/tfm/tv-audience/landing';
 
