@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `tv_audience`
   `event_id` string, 
   `duration` string
 )
-PARTITIONED BY (time bigint)
 COMMENT 'Tabla con los datos en crudo de tv_audience'
+PARTITIONED BY (time bigint)
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ',';
