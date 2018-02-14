@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS tv-audience_landing 
+CREATE DATABASE IF NOT EXISTS tv_audience_preparation
 COMMENT 'BBDD usada para cargar los datos procesados' 
-location = '/tfm/tv-audience/preparation';
+location '/tfm/tv-audience/preparation';
 
 CREATE TABLE IF NOT EXISTS  `tv_audience`(
   `channel_id` int, 
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS  `tv_audience`(
   `program_id` string, 
   `event_id` string, 
   `duration` int)
-COMMENT 'Tabla con los datos en crudo de tv_audience'
+COMMENT 'Tabla con los datos preprocesados de tv_audience'
 PARTITIONED BY (`week` int,`slot` int) 
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ',';
