@@ -20,9 +20,11 @@ path_ouput_hdfs = '/tfm/tv-audience/landing/tv_audience/'
 
 onlyfiles = [f for f in listdir(path_input) if isfile(join(path_input, f))]
 
-path_input_final = path_input + '/' + onlyfiles[0]
-path_ouput_hdfs_final = path_ouput_hdfs + '/time='+ str(time.time()).split('.')[0]+'/'
+if(len(onlyfiles)) > 0:
+    
+    path_input_final = path_input + '/' + onlyfiles[0]
+    path_ouput_hdfs_final = path_ouput_hdfs + '/time='+ str(time.time()).split('.')[0]+'/'
 
-(ret, out, err)= run_cmd(['hdfs', 'dfs', '-mkdir', path_ouput_hdfs_final])
-(ret, out, err)= run_cmd(['hdfs', 'dfs', '-put', path_input_final, path_ouput_hdfs_final])
+    (ret, out, err)= run_cmd(['hdfs', 'dfs', '-mkdir', path_ouput_hdfs_final])
+    (ret, out, err)= run_cmd(['hdfs', 'dfs', '-put', path_input_final, path_ouput_hdfs_final])
 
