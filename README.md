@@ -49,13 +49,16 @@ El código de este worflow está disponible en el repositorio en la dirección s
 
 * **Preparación datos:** Workflow usado para cargar los datos almacenados en landing, validarlos, darles formato y almacenarlos en la base de datos preparation de HIVE. está compuesto por las siguientes acciones:
 
-  1. **spark-node** Acción que selecciona los últimos datos cargados en la tabla landing, realizando las siguientes acciones:
+  1. **spark-node** Acción que selecciona los últimos datos cargados en la tabla landing. Esta desarrollado usando Spark, realiza las siguientes acciones:
   
     * Validar los datos, solo va cargar aquellos datos que cumplan la especificación de la tabla tv_audience de la BBDD Preparation.
-    * Persistir los datos
-
+    * Persistir los datos, determinará que registros son nuevos para introducir y cuales son actualizaciones de datos ya existentes 
+    
+  2. **dataset_preparation** Genera un fichero SUCCESS en el directorio de HDFS que usan los datasets de Oozie. Este fichero lo usarán  los coodinadores asociados a estos procesos para que puedan ejecutar las tareas. Esta ruta tiene el formato HDFS/preparation/YYYY-MM-DD.
+  
 El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/preparation/workflow.xml.
-* **Construir KPI:** Workflow usado para construir los diferentes KPI's y almacenarlos en la base de datos KPI de HIVE. El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/landing/workflow.xml
+
+* **Construir KPI:** Workflow usado para construir los diferentes KPI's y almacenarlos en la base de datos KPI de HIVE. Por el momento el único KPI desarrollado es definido el apartado KPI de este documento. Esta desarrollado usando Spark. El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/kpi/workflow.xml
 
 Todos estos Worflows estarán coordinados a traves de un coordinador de Oozie, pendiente de desarrollo.
 
