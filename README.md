@@ -45,22 +45,38 @@ La orquestación de las tareas necesarias para construir la ETL usa como tecnolo
   2. **hive_remake_landing.** Una vez el fichero está en directorio de la BBDD landing HIVE es necesario rehacer la tabla para que detecte la última partición creada.
   3. **dataset_fileload.** Genera un fichero SUCCESS en el directorio de HDFS que usan los datasets de Oozie. Este fichero lo usarán  los coodinadores asociados a estos procesos para que puedan ejecutar las tareas. Esta ruta tiene el formato HDFS/fileload/YYYY-MM-DD.
 
-El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/fileload/workflow.xml
+  El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/fileload/workflow.xml
 
 * **Preparación datos:** Workflow usado para cargar los datos almacenados en landing, validarlos, darles formato y almacenarlos en la base de datos preparation de HIVE. está compuesto por las siguientes acciones:
 
   1. **spark-node** Acción que selecciona los últimos datos cargados en la tabla landing. Esta desarrollado usando Spark, realiza las siguientes acciones:
   
-    * Validar los datos, solo va cargar aquellos datos que cumplan la especificación de la tabla tv_audience de la BBDD Preparation.
-    * Persistir los datos, determinará que registros son nuevos para introducir y cuales son actualizaciones de datos ya existentes 
+  * Validar los datos, solo va cargar aquellos datos que cumplan la especificación de la tabla tv_audience de la BBDD Preparation.
+  * Persistir los datos, determinará que registros son nuevos para introducir y cuales son actualizaciones de datos ya existentes 
     
   2. **dataset_preparation** Genera un fichero SUCCESS en el directorio de HDFS que usan los datasets de Oozie. Este fichero lo usarán  los coodinadores asociados a estos procesos para que puedan ejecutar las tareas. Esta ruta tiene el formato HDFS/preparation/YYYY-MM-DD.
   
-El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/preparation/workflow.xml.
+  El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/preparation/workflow.xml
 
-* **Construir KPI:** Workflow usado para construir los diferentes KPI's y almacenarlos en la base de datos KPI de HIVE. Por el momento el único KPI desarrollado es definido el apartado KPI de este documento. Esta desarrollado usando Spark. El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/kpi/workflow.xml
+* **Construir KPI:** Workflow usado para construir los diferentes KPI's y almacenarlos en la base de datos KPI de HIVE. Por el momento el único KPI desarrollado es definido el apartado KPI de este documento. Esta desarrollado usando Spark 
 
-Todos estos Worflows estarán coordinados a traves de un coordinador de Oozie, pendiente de desarrollo.
+El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/kpi/workflow.xml
+
+Todos los workflows anteriormente expuestos será necesario planificarlos y ejecutarlos en función de diferentes eventos. Para lograr esto, será necesario el desarrollo de coordinadores que implementen está funcionalidad. Para nuestra ETL hemos desarrollado los siguientes coordinadores:
+
+* **Carga de fichero** Este coordinador se encarga de planificar la ejecución del workflow carga de fichero. Usa una planificación temporal, en concreto esta planificado para lanzarse una vez al día, ya que se espera que el fichero venga diariamente a una determinada hora.
+
+El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/landing/coordinator.xml
+
+* **Preparación de datos** Este coordinador se encarga de planificar la ejecución del workflow de preparación de datos. Usa una planificación basada en la disponibilidad de datos, en este caso espera que exista un fichero en un determinado directorio que tiene una especificación temporal. 
+Este directorio debe tener el formato YYYY-MM-DD, donde esta fecha es el día que debe ser ejecutado. Dentro de esta carpeta debe estar almacenado un fichero con el nombre SUCCESS, una vez se encuentre el fichero se puede ejecutar el proceso. Este fichero es encargado de generarlo la acción número 3 del workflow de carga de ficheros.
+
+El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/preparation/coordinator.xml
+
+* **Contruir KPI** Este coordinador se encarga de construir el KPI. Usa una planificación basada en la disponibilidad de datos, en este caso espera que exista un fichero en un determinado directorio que tiene una especificación temporal. 
+Este directorio debe tener el formato YYYY-MM-DD, donde esta fecha es el día que debe ser ejecutado. Dentro de esta carpeta debe estar almacenado un fichero con el nombre SUCCESS, una vez se encuentre el fichero se puede ejecutar el proceso. Este fichero es encargado de generarlo la acción número 2 del workflow de preparación de datos.
+
+El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/kpi/coordinator.xml
 
 ## Métricas
 
