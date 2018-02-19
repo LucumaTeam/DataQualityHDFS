@@ -66,17 +66,21 @@ Todos los workflows anteriormente expuestos será necesario planificarlos y ejec
 
 * **Carga de fichero** Este coordinador se encarga de planificar la ejecución del workflow carga de fichero. Usa una planificación temporal, en concreto esta planificado para lanzarse una vez al día, ya que se espera que el fichero venga diariamente a una determinada hora.
 
-  El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/landing/coordinator.xml
+  El código de este coordinador está disponible en el repositorio en la dirección src/oozie/workflow/landing/coordinator.xml
 
 * **Preparación de datos** Este coordinador se encarga de planificar la ejecución del workflow de preparación de datos. Usa una planificación basada en la disponibilidad de datos, en este caso espera que exista un fichero en un determinado directorio que tiene una especificación temporal. 
 Este directorio debe tener el formato YYYY-MM-DD, donde esta fecha es el día que debe ser ejecutado. Dentro de esta carpeta debe estar almacenado un fichero con el nombre SUCCESS, una vez se encuentre el fichero se puede ejecutar el proceso. Este fichero es encargado de generarlo la acción número 3 del workflow de carga de ficheros.
 
-  El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/preparation/coordinator.xml
+  El código de este coordinador está disponible en el repositorio en la dirección src/oozie/workflow/preparation/coordinator.xml
 
 * **Generar KPI** Este coordinador se encarga de generar el KPI. Usa una planificación basada en la disponibilidad de datos, en este caso espera que exista un fichero en un determinado directorio que tiene una especificación temporal. 
 Este directorio debe tener el formato YYYY-MM-DD, donde esta fecha es el día que debe ser ejecutado. Dentro de esta carpeta debe estar almacenado un fichero con el nombre SUCCESS, una vez se encuentre el fichero se puede ejecutar el proceso. Este fichero es encargado de generarlo la acción número 2 del workflow de preparación de datos.
 
-  El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/kpi/coordinator.xml
+  El código de este coordinador está disponible en el repositorio en la dirección src/oozie/workflow/kpi/coordinator.xml
+  
+El flujo de cargas de trabajo de procesamiento de datos generadas por los coordinadores y workflows anteriormente expuestos, será necesario encapsularlo. Este encapsulamiento de los coordinadores lo hemos logrado desarrollando un **Bundle** de oozie.
+
+El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/bundle/bundle.xml
 
 ## Métricas
 
