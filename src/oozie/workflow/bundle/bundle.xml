@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<bundle-app name='bundle-tvaudience' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='uri:oozie:bundle:0.2'> 
+  <coordinator name='fileloadcoordjob'> 
+    <app-path>${appBaseDir}/fileload/job.properties</app-path> 
+  </coordinator> 
+  <coordinator name='preparationcoordjob'> 
+    <app-path>${appBaseDir}/preparation/job.properties</app-path> 
+  </coordinator> 
+  <coordinator name='kpicoordjob'> 
+    <app-path>${appBaseDir}/kpi/job.properties</app-path> 
+  </coordinator> 
+</bundle-app>
