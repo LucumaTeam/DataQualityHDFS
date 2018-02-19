@@ -80,7 +80,7 @@ Este directorio debe tener el formato YYYY-MM-DD, donde esta fecha es el día qu
   
 El flujo de cargas de trabajo de procesamiento de datos generadas por los coordinadores y workflows anteriormente expuestos, será necesario encapsularlo. Este encapsulamiento de los coordinadores lo hemos logrado desarrollando un **Bundle** de oozie.
 
-El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/bundle/bundle.xml
+El código de este bundle está disponible en el repositorio en la dirección src/oozie/workflow/bundle/bundle.xml
 
 ## Métricas
 
