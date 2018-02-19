@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<coordinator-app name="kpi_coord_job" start="${startTime}" end="${endTime}" frequency="${coord:days(1)}"  timezone="GMT" xmlns="uri:oozie:coordinator:0.4">
+	<datasets> 
+		<dataset name="ds_preparation" frequency="${coord:days(1)}" initial-instance="${startTime}" timezone="GMT"> 
+			<uri-template> 
+				${appBaseDirDS}/preparation/${YEAR}-${MONTH}-${DAY} 
+			</uri-template> 
+		</dataset>
+	</datasets>
+	<input-events> 
+		<data-in name="event_preparation" dataset="ds_preparation"> 
+			<instance>${coord:current(0)}</instance> 
+		</data-in> 
+	</input-events>	
+	<action>
+		<workflow>
+			<app-path>${appBaseDir}/kpi/</app-path>
+		</workflow>
+   </action>
+</coordinator-app>

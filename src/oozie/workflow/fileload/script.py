@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
+
 import subprocess
 from os import listdir
 from os.path import isfile, join
@@ -27,4 +28,9 @@ if(len(onlyfiles)) > 0:
 
     (ret, out, err)= run_cmd(['hdfs', 'dfs', '-mkdir', path_ouput_hdfs_final])
     (ret, out, err)= run_cmd(['hdfs', 'dfs', '-put', path_input_final, path_ouput_hdfs_final])
+
+
+# In[ ]:
+
+
 
