@@ -43,11 +43,18 @@ La orquestación de las tareas necesarias para construir la ETL usa como tecnolo
 
   1. **file_load_landing.** Acción que mueve el fichero desde el directorio de entrada a nuestro sistema de HDFS. La ruta de HDFS va coincidir con una partición la BBDD Landing de Hive.
   2. **hive_remake_landing.** Una vez el fichero está en directorio de la BBDD landing HIVE es necesario rehacer la tabla para que detecte la última partición creada.
-  3. **dataset_fileload.** Genera un fichero SUCCESS en el directorio de HDFS que usan los datasets de Oozie para que los coodinadores de otros procesos puedan ejecutar las tareas. Esta ruta tiene el formato HDFS/fileload/YYYY-MM-DD.
+  3. **dataset_fileload.** Genera un fichero SUCCESS en el directorio de HDFS que usan los datasets de Oozie. Este fichero lo usarán  los coodinadores asociados a estos procesos para que puedan ejecutar las tareas. Esta ruta tiene el formato HDFS/fileload/YYYY-MM-DD.
 
 El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/fileload/workflow.xml
 
-* **Preparación datos:** Workflow usado para cargar los datos almacenados en landing, validarlos, darles formato y almacenarlos en la base de datos preparation de HIVE. El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/preparation/workflow.xml.
+* **Preparación datos:** Workflow usado para cargar los datos almacenados en landing, validarlos, darles formato y almacenarlos en la base de datos preparation de HIVE. está compuesto por las siguientes acciones:
+
+  1. **spark-node** Acción que selecciona los últimos datos cargados en la tabla landing, realizando las siguientes acciones:
+  
+    * Validar los datos, solo va cargar aquellos datos que cumplan la especificación de la tabla tv_audience de la BBDD Preparation.
+    * Persistir los datos
+
+El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/preparation/workflow.xml.
 * **Construir KPI:** Workflow usado para construir los diferentes KPI's y almacenarlos en la base de datos KPI de HIVE. El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/landing/workflow.xml
 
 Todos estos Worflows estarán coordinados a traves de un coordinador de Oozie, pendiente de desarrollo.
