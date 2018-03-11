@@ -1,0 +1,2 @@
+from TestOperation import TestOperation
+from TestOperationMinor import TestOperationMin
