@@ -30,7 +30,7 @@ columns = [Column('channel_id',Enum_Type.STRING,None),
 
 granularity = GranularityTemporal(2018,3,0,11,None,None,None,GranularityTimeInterval.DAY)
 
-source = SourceHIVE("select * from TablePreparation")
+source = SourceHIVE("select * from tv_audience_preparation.tv_audience")
 
 table = Table(granularity,columns,None,[test_column_metric],source,None)
 
