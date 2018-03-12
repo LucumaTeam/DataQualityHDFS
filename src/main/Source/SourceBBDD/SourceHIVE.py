@@ -2,7 +2,7 @@ from Source import Source
 from pyspark.sql import HiveContext,SQLContext,Row
 from pyspark.context import SparkContext
 
-class SourceHive (Source):
+class SourceHIVE(Source):
 
     def __init__(self,query):
         self._query = query
@@ -14,4 +14,5 @@ class SourceHive (Source):
     def retrieve_dataset(self):
         sc = SparkContext.getOrCreate()
         hivec = HiveContext(sc)
-        return  hivec.sql(self._query)
+
+        return hivec.sql(self._query)

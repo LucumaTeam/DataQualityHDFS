@@ -1,6 +1,7 @@
 import abc
 
-class Source(metaclass=abc.ABCMeta):
+class Source(object):
+    __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
     def retrieve_dataset(self):

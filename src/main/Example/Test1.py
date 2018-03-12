@@ -2,7 +2,7 @@ from Core import Column
 from Core import Table
 from Core import Interface
 from Core.Granularity import GranularityTemporal
-from Core.Granularity import GranularityTimeInterval
+from Core.Granularity.GranularityTimeInterval import GranularityTimeInterval
 from Core.Enum_Type import Enum_Type
 from Metrics import MetricColumn
 from Metrics.MetricExpressions import MetricExpressionNullValue
@@ -30,11 +30,11 @@ columns = [Column('channel_id',Enum_Type.STRING,None),
 
 granularity = GranularityTemporal(2018,3,0,11,None,None,None,GranularityTimeInterval.DAY)
 
-source = SourceHIVE("select * from tv_audience_preparation.tv_audience")
+source = SourceHIVE('select * from tv_audience_preparation.tv_audience')
 
 table = Table(granularity,columns,None,[test_column_metric],source,None)
 
-interface = Interface([granularity],[Table(granularity,columns,None,None,None)])
+interface = Interface([granularity],[table])
 
 metric_service = MetricService()
 test_service = TestService()

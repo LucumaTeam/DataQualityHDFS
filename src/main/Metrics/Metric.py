@@ -1,6 +1,7 @@
 import abc
 
-class Metric(metaclass=abc.ABCMeta):
+class Metric(object):
+    __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
     def evaluate(self,value,metric_context):

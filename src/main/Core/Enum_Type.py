@@ -1,4 +1,6 @@
-class Enum_Type:
+from enum import Enum
 
-    INTEGER =1,
+class Enum_Type(Enum):
+
+    INTEGER =1
     STRING = 2
