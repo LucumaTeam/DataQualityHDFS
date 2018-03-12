@@ -2,10 +2,12 @@ from MetricResult import MetricResult
 
 class MetricResultValidation(MetricResult):
 
-    def __init__(self,ok,nook,result_ok):
+    def __init__(self,ok,nook,result_ok,count):
+        super(MetricResult, self).__init__(count)
         self._ok = ok
         self._result_ok = result_ok
         self._nook = nook
+
 
     @property
     def ok(self):

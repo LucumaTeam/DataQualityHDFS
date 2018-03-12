@@ -1,8 +1,8 @@
 class Interface:
 
     def __init__(self,granularities,tables):
-        self._granularity = granularities
-        self._table= tables
+        self._granularities = granularities
+        self._tables = tables
 
     @property
     def granularities(self):

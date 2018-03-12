@@ -3,6 +3,7 @@ import abc
 class Source(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def Load(self):
+    def retrieve_dataset(self):
         pass
+
 

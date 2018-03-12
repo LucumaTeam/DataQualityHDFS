@@ -5,7 +5,7 @@ class SourceCSV(SourceFile):
     def __init__(self, path, file_name,delimitator,header):
         super(SourceFile, self).__init__(path, file_name)
         self._delimitador = delimitator
-        self_header = header
+        self._header = header
 
-    def Load(self):
+    def retrieve_dataset(self):
         pass

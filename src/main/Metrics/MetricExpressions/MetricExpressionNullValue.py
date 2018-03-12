@@ -22,7 +22,5 @@ class MetricExpressionNullValue(MetricExpression):
 
         self._metric.evaluate(value, metric_context)
 
-
-
     def get_metric_result(self):
         pass
