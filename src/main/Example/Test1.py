@@ -12,7 +12,7 @@ from Test.TestRepresentations import TestRepresentationPercentage
 from Test.TestService import TestService
 from Source.SourceBBDD import SourceHIVE
 from Metrics import MetricService
-
+#Test 1
 column_metric_program = MetricExpressionNullValue(MetricColumn())
 
 test_column_metric = Test(15,TestRepresentationPercentage(),TestOperationMayor(),column_metric_program)
