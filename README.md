@@ -97,3 +97,4 @@ Una vez cargada la información del Data Set en una tabla de HIVE y obtenida los
 1. **Métrica:** Número de valores nulos en la columna program ID del Data Set.
 2. **Test:** Falso, ya que el numero de registros que cumplan la condición anterior es 0%.
 3. **Impacto:** No se está perdiendo información de los programas.
+4. TEST
