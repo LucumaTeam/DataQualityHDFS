@@ -1,5 +1,5 @@
 from MetricExpression import MetricExpression
-
+from Metrics.MetricResult import MetricResultValidation
 
 class MetricExpressionNullValue(MetricExpression):
 
@@ -23,4 +23,4 @@ class MetricExpressionNullValue(MetricExpression):
         self._metric.evaluate(value, metric_context)
 
     def get_metric_result(self):
-        pass
+        return MetricResultValidation(self._ok,self._nok,self._result_ok,self._count)

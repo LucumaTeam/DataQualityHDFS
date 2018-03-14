@@ -1,9 +1,10 @@
 class TestService:
 
-    def assert_tests(interface):
+    def assert_tests(self,interface):
 
         tables = interface.tables
 
         if (len(tables) > 0):
             for table in tables:
-                table.tests.assert_test()
+                for test in table.tests:
+                    test.assert_test()

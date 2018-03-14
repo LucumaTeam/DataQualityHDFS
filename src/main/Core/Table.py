@@ -49,6 +49,6 @@ class Table:
         return self._is_load_information
 
     def load_dataset(self):
-        if(self._source is None):
+        if(self._source is not None):
             self._data_set = self._source.retrieve_dataset()
             self._is_load_information = True

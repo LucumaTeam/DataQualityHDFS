@@ -12,8 +12,8 @@ class MetricService:
                 data_set = table.data_set
                 columns = table.columns
                 if len(columns) > 0:
-                    for row in data_set.toLocalIterator():
-                        metric_context = MetricContext()
+                    for row in data_set.rdd.toLocalIterator():
+                        metric_context = MetricContext(dict())
                         metric_context.items.update({'row':row})
                         for column in columns:
                             if(column.metric is not None):

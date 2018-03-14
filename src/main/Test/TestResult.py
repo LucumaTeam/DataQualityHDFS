@@ -1,3 +1,5 @@
-class TestResult:
-    PASS = 1,
-    FAIL =0
+from enum import Enum
+
+class TestResult(Enum):
+    FAIL = 0
+    PASS = 1
