@@ -1,19 +1,17 @@
-from Core import Column
-from Core import Table
-from Core import Interface
-from Core.Granularity import GranularityTemporal
-from Core.Granularity.GranularityTimeInterval import GranularityTimeInterval
-from Core.Enum_Type import Enum_Type
-from Metrics import MetricColumn
-from Metrics.MetricExpressions import MetricExpressionNullValue
-from Test import Test
-from Test.TestOperations import TestOperationMayor
-from Test.TestOperations import TestOperationMinor
-from Test.TestRepresentations import TestRepresentationPercentage
-from Test.TestService import TestService
-from Source.SourceBBDD import SourceHIVE
-from Source.SourceFile import SourceCSV
-from Metrics import MetricService
+from dataqualityhdfs.metrics.metriccolumn import MetricColumn
+from dataqualityhdfs.metrics.metricservice import MetricService
+from dataqualityhdfs.core.column import Column
+from dataqualityhdfs.core.enum_type import Enum_Type
+from dataqualityhdfs.core.granularity.granularitytemporal import GranularityTemporal
+from dataqualityhdfs.core.granularity.granularitytimeinterval import GranularityTimeInterval
+from dataqualityhdfs.core.interface import Interface
+from dataqualityhdfs.core.table import Table
+from dataqualityhdfs.metrics.metricexpressions import MetricExpressionNullValue
+from dataqualityhdfs.source.sourcefile import SourceCSV
+from dataqualityhdfs.test.test import Test
+from dataqualityhdfs.test.testoperations.testoperationmayor import TestOperationMayor
+from dataqualityhdfs.test.testrepresentations.testrepresentationpercentage import TestRepresentationPercentage
+from dataqualityhdfs.test.testservice import TestService
 
 column_metric_program = MetricExpressionNullValue(MetricColumn())
 
