@@ -1,0 +1,21 @@
+<workflow-app xmlns="uri:oozie:workflow:0.5" name="SparkPythonKPI">
+          <start to="spark-node" />
+          
+          <action name="spark-node">
+            <spark xmlns="uri:oozie:spark-action:0.1">
+              <job-tracker>${jobTracker}</job-tracker>
+              <name-node>${nameNode}</name-node>
+              <master>${master}</master>
+              <name>Python-Spark-KPI</name>
+              <jar>${nameNode}/user/root/oozie/apps/tv-audience/workflow/kpi/synchronous-workflow/kpi.py</jar>
+			  <spark-opts>--driver-memory 512m --executor-memory 512m --num-executors 3 --executor-cores 1</spark-opts>
+            </spark>
+            <ok to="end" />
+            <error to="fail" />
+          </action>
+          
+          <kill name="fail">
+            <message>Workflow failed, error message [${wf:errorMessage(wf:lastErrorNode())}]</message>
+          </kill>
+          <end name="end" />
+ </workflow-app>

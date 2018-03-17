@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<coordinator-app name="fileload_coord_job" start="${startTime}" end="${endTime}" frequency="${coord:days(1)}"  timezone="GMT" xmlns="uri:oozie:coordinator:0.4">
+	<action>
+		<workflow>
+			<app-path>${appBaseDir}/fileload/asynchronous/</app-path>
+			<configuration>
+				<property> 
+					<name>runDate</name> 
+					<value>${coord:formatTime(coord:nominalTime(),"yyyy-MM-dd")}</value> 
+				</property>
+			</configuration>
+		</workflow>
+   </action>
+</coordinator-app>

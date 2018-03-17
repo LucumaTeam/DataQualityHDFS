@@ -1,0 +1,14 @@
+<bundle-app xmlns="uri:oozie:bundle:0.2" name="bundle-tvaudience">
+	<coordinator name="fileload_coord_job">
+		<app-path>${appBaseDir}/fileload/asynchronous/</app-path>
+	</coordinator>
+	<coordinator name="dq_coord_job">
+		<app-path>${appBaseDir}/preparation/asynchronous/dataquality/</app-path>
+	</coordinator>
+	<coordinator name="preparation_coord_job">
+		<app-path>${appBaseDir}/preparation/asynchronous/</app-path>
+	</coordinator>
+	<coordinator name="kpi_coord_job">
+		<app-path>${appBaseDir}/kpi/asynchronous/</app-path>
+	</coordinator>
+</bundle-app>

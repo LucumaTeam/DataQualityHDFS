@@ -1,0 +1,11 @@
+<bundle-app xmlns="uri:oozie:bundle:0.2" name="bundle-tvaudience">
+	<coordinator name="fileload_coord_job">
+		<app-path>${appBaseDir}/fileload/synchronous-workflow/</app-path>
+	</coordinator>
+	<coordinator name="preparation_coord_job">
+		<app-path>${appBaseDir}/preparation/synchronous-workflow/</app-path>
+	</coordinator>
+	<coordinator name="kpi_coord_job">
+		<app-path>${appBaseDir}/kpi/synchronous-workflow/</app-path>
+	</coordinator>
+</bundle-app>
