@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<workflow-app xmlns="uri:oozie:workflow:0.4" name="python-wfload">
+    <start to="file_load_landing"/>
+    <action name="file_load_landing">
+        <shell xmlns="uri:oozie:shell-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <configuration>
+                <property>
+                    <name>mapred.job.queue.name</name>
+                    <value>${queueName}</value>
+                </property>
+            </configuration>
+            <exec>script.py</exec>
+            <file>/user/root/${examplesRoot}/apps/tv-audience/workflow/fileload/synchronous-script/script.py</file>
+            <capture-output/>
+        </shell>
+        <ok to="hive_remake_landing"/>
+        <error to="fail"/>
+    </action>
+    <action name="hive_remake_landing">
+        <hive xmlns="uri:oozie:hive-action:0.6">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <query>MSCK REPAIR TABLE tv_audience_landing.tv_audience</query>
+        </hive>
+        <ok to="dataset_fileload"/>
+        <error to="fail"/>
+    </action>
+	<action name="dataset_fileload">
+		<fs>
+			<touchz path="${appBaseDirDS}/fileload/synchronous-script/${runDate}/_SUCCESS"></touchz>
+		</fs>
+		<ok to="end"/>
+		<error to="fail"/>
+	</action>
+    <kill name="fail">
+        <message>Python action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
