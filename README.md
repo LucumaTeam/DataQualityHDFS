@@ -97,3 +97,64 @@ Una vez cargada la información del Data Set en una tabla de HIVE y obtenida los
 1. **Métrica:** Número de valores nulos en la columna program ID del Data Set.
 2. **Test:** Falso, ya que el numero de registros que cumplan la condición anterior es 0%.
 3. **Impacto:** No se está perdiendo información de los programas.
+
+## Framework HDFS
+
+Una vez establecida la prueba de concepto, vamos a diseñar e implementar en Python y Spark nuestro componente de DataQuality, este componente tiene que satisfacer los siguientes requerimientos:
+
+1. Establecer y calcular métricas sobre un DataSet
+2. Establecer y calcular tests en función de las métricas y el DataSet
+3. Cálcular las métricas y test sobre un DataSet de forma asíncrona y síncrona
+4. Detener la ejecución del pipeline en función de los resultados del test
+5. Disponer de los resultados de las métricas y resultados, también de los registros que han producido que el pipeline no continúe
+6. El componente deber ser reutilizable y extensible a otros proyectos que usen tecnologías BigData y HDFS
+
+En el punto actual del desarrollo, hemos desarrollado e implementado los puntos 1, 2 y 3 de los requerimientos.
+A continuación, describiremos el diseño de clases necesarias para cubrir los requerimientos expuestos.
+
+* **Interface.** Clase que encapsula las granularidades y datasets sobre los que queremos aplicar las métricas y tests. Esta clase esta compuesta por las siguientes propiedades: 
+  * Granuralidades
+  * Tablas
+  
+*	**Granularity.** Clase abstracta que encapsula la granularidad de un data set. En esta versión se ha diseñado e implementado las siguiente granularidad:
+  * GranularityTemporal. Granularidades temporal, por ejemplo, los datos vienen a diario.
+
+* **Table.** Clase que encapsula un DataSet, contiene tanto los datos como el esquema. Está compuesta por las siguientes propiedades:
+  * DataFrame. Los datos del dataset, son cargados mediante un DataFrame de Spark
+  * Colums. Esquema con las definiciones de las columnas del dataset
+  * Metrics. Metricas de la interfaz
+  * Tests. Tests de la interfaz
+  * Granularity. Granuralidad del dataset
+
+* **Column.** Clase que encapsula la definición de una columna del DataSet. Está compuesta por las siguientes propiedades:
+  * Name. Nombre de la columna
+  * Map_Type. Tipo de dato que usa la columna
+  * Metrics. Métricas asociadas a la columna
+  
+* **Metric.** Clase abstracta que encapsula el concepto de métrica. Usaremos el patrón decorador para evaluar y devolver los resultados de las métricas. Tendremos dos tipos de metricas:
+  * MetricFile. Metrica referente al dataset entero
+  * MetricColumn. Metrica referente a una columna del dataset
+
+* **MetricExpression.** Clase abstracta que encapsula una métrica en particular. En esta versión hemos implementado las siguientes métricas:
+  * MetricExpressionNullValue. Metrica que evalúa si una columna tiene un valor nulo
+  
+* **MetricResult.** Clase abstracta que encapsula el resultado de una métrica. Está compuesto por las siguientes clases:
+  * MetricResultAgg. Representada el resultado de una métrica de tipo agregación
+  * MetricResultValidation. Representa el resultado de una métrica de tipo validación. Contiene las siguientes propiedades:
+    * OK. Numero de columnas que satisfacen la métrica 
+    * NOK. Numero de columnas que no satisfacen la métrica
+
+* **MetricService.** Clase que encapsula un servicio encargado de evaluar las métricas de una interfaz. Presenta el siguiente método:
+  * evaluate_metrics. Método que evalúa las métricas de una interfaz que recibe por parámetro
+  
+* **Test.** Clase que encapsula el concepto de test. Se encarga de evaluar un test en función de su métrica, está compuesto por las siguientes propiedades:
+  * Threshold. Umbral del test que nos indica sí o no cumple la condición 
+  * Metric. Metrica sobre la que se aplica el test
+  * Operation. Operacion que se aplica entre el test y la métrica
+  * Representation. Representación del resultado de la métrica
+  * Result. Valor booleano que indica si se cumple o no el test
+  
+* **TestService.** Clase que encapsular un servicio encargado de evaluar los tests de una interfaz. Presenta el siguiente método:
+  * assert_tests. Método que evalúa los tests de una interfaz que recibe por parámetro
+    
+ 
