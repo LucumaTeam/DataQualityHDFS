@@ -98,7 +98,7 @@ Una vez cargada la información del Data Set en una tabla de HIVE y obtenida los
 2. **Test:** Falso, ya que el numero de registros que cumplan la condición anterior es 0%.
 3. **Impacto:** No se está perdiendo información de los programas.
 
-## Framework HDFS
+## Framework DataQuality HDFS
 
 Una vez establecida la prueba de concepto, vamos a diseñar e implementar en Python y Spark nuestro componente de DataQuality, este componente tiene que satisfacer los siguientes requerimientos:
 
@@ -166,3 +166,43 @@ A continuación, describiremos el diseño de clases necesarias para cubrir los r
   * assert_tests. Método que evalúa los tests de una interfaz que recibe por parámetro
     
 El código de este framework está disponible en el repositorio en la dirección src/main/ 
+
+## Prueba Framework DataQuality HDFS
+
+Una vez desarrollado nuestro componente de Data Quality, hay que realizar una serie de pruebas para verificar su correcto funcionamiento. Para la realización de estas pruebas hemos simulado la misma prueba de concepto que hemos descrito al inicio de este documento, donde:
+
+* **Granuralidad.** En nuestro caso la periocidad del dataset es diaria
+* **DataSet.** Seleccionaremos el DataSet basado en las audiencias de televisión
+* **Metrica.** Seleccionaremos la métrica que nos indica el número de valores nulos que hay en la columna program ID del dataset
+* **Test.** El test evaluará si la métrica anterior supera el umbral del 15% de valores nulos
+
+Podemos ver un ejemplo de configuración de la anterior configuración en la siguiente dirección del repositorio src/Example/Test1.py
+
+Una vez establecida la configuración del framework, el tipo de métricas y tests que queremos realizar, tenemos que decidir en qué fase del pipeline lo inyectamos y el modo de ejecución del componente, en nuestro caso:
+
+* **Fase.** Inyectaremos el componente de DataQuality al inicio de la fase de preparación de datos, descrito en el punto de orquestación. En este punto los datos ya han sido introducidos en nuestro DataLake proveniente de una fuente externa.
+* **Ejecución.** Hemos seleccionado los siguientes escenarios de ejecución:
+
+  * **Asíncrono.** En este modo de ejecución, el componente de DataQuality se ejecutará de forma independiente al pipeline del proceso de la ETL. Para implementar este modo de ejecución es necesario:
+  
+    * Desarrollo de un workflow que ejecute el script en python del componente de DataQuality
+    * Desarrollo de un coordinador que ejecute el workflow. La planificación está basada en la disponibilidad de datos, el mismo que orquestador descrito en el orquestado Preparación de datos.
+    * Ampliar el bundle con el coordinador anterior
+    
+  * **Síncrono Workflow.** En este modo de ejecución, el componente de DataQuality se ejecutará unido al pipeline del proceso de la ETL, en este caso, como una etapa más dentro del Workflow. Para implementar este modo de ejecución es necesario:
+  
+    * Desarrollo de una acción más dentro del workflow que realiza la preparación de los datos. Esta acción ejecuta el componente de DataQuality, es recomendable que esta acción se realice antes de la acción que prepocesa los datos
+  
+  * **Síncrono Script.** En este modo de ejecución, el componente de DataQuality se ejecutará unido al pipeline del proceso de la ETL, en este caso, dentro del script que realiza la carga de los datos prepocesados. Para implementar este modo de ejecución es necesario:
+  
+    * Modificar el script de python contenido en la acción spark-node dentro del coordinador que prepara los datos. En caso tendremos que inyectar el componente de DataQuality a la vez efectuamos la preparación de los datos
+    
+El código de los scripts está contenido en las siguientes URL:
+
+  * Asíncrono. src/oozie/bundle/asynchronous
+  * Síncrono Workflow. src/oozie/bundle/synchronous-workflow
+  * Síncrono Script. src/oozie/bundle/synchronous-script
+
+
+
+
