@@ -33,7 +33,7 @@ El almacén de datos usado por el proceso ETL, está basado en HDFS y usa como i
 * **Preparation:** Usamos esta base de datos para almacenar los datos procesados. Se cargan los datos que provienen de la base de datos landing y se validan para cumplir las reglas de negocio. Contiene una tabla compuesta por todas las columnas de dataset tipados. Está particionada por las columnas temporales slot y week. 
 * **KPI:** Base de datos que usamos para almacenar los diferentes KPI's. Los datos se generan a partir de la base de datos preparation. En un principio está compuesta por el KPI descrito en el apartado anterior.
 
-Los diferentes esquemas de HIVE están especificados en el directorio del repositorio src/data
+Los diferentes esquemas de HIVE están especificados en el directorio del repositorio src/etl
 
 ## Orquestación
 
@@ -157,4 +157,4 @@ A continuación, describiremos el diseño de clases necesarias para cubrir los r
 * **TestService.** Clase que encapsular un servicio encargado de evaluar los tests de una interfaz. Presenta el siguiente método:
   * assert_tests. Método que evalúa los tests de una interfaz que recibe por parámetro
     
- 
+El código de este framework está disponible en el repositorio en la dirección src/main/ 
