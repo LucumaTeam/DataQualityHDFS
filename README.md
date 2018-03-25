@@ -203,7 +203,7 @@ El código de los scripts está contenido en las siguientes URL:
   * Síncrono Workflow. src/oozie/bundle/synchronous-workflow
   * Síncrono Script. src/oozie/bundle/synchronous-script
 
-## Conclusiones prueba Framework DataQuality
+## Conclusiones
 
 Una vez desplegados cada una de los escenarios planteados, las conclusiones y resultados de cada modo de ejecución son los siguientes:
 
