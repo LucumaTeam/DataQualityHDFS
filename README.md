@@ -25,7 +25,7 @@ Una vez analizado el Data Set el siguiente paso es seleccionar un KPI para desar
 * **week:** week from 1 to 19. Weeks 14 and 19 should not be used because they contain errors.
 * **minutes:** total minutes.
 
-## DataWarehouse
+## DataLake
 
 El almacén de datos usado por el proceso ETL, está basado en HDFS y usa como infraestructura de almacenamiento HIVE. Este almacén está compuesto por las siguientes BBDD:
 
