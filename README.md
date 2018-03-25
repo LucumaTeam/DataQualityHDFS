@@ -203,6 +203,18 @@ El código de los scripts está contenido en las siguientes URL:
   * Síncrono Workflow. src/oozie/bundle/synchronous-workflow
   * Síncrono Script. src/oozie/bundle/synchronous-script
 
+## Conclusiones prueba Framework DataQuality
 
+Una vez desplegados cada una de los escenarios planteados, las conclusiones y resultados de cada modo de ejecución son los siguientes:
 
-
+* **Asíncrono.** Destacar las siguientes conclusiones:
+  * Permite ejecutar de forma independiente el componente de la preparación de datos. Dependiendo de la configuración y recursos del cluster puede ralentizar la ejecución de la ETL o mantener los tiempos. En cualquier caso, va consumir más recursos, de forma que otros procesos de ejecución en el cluster se verán afectados.
+  * Facilita el desarrollo e integración del componente de DataQuality con el pipeline. Al ejecutarse de forma independiente, permite que el desarrollo de la ETL y el componente DataQuality este desacoplados, facilitando las tareas de desarrollo, despliegue e integración 
+  * Dificulta la interacción del componente de DataQuality con el proceso de pipeline. En caso de querer detener la ejecución del proceso del pipeline en función de los resultados de los tests, este escenario va complicar esta interacción
+* **Síncrono Workflow.** Destacar las siguientes conclusiones: 
+  * El proceso de la ETL y el componente DataQuality esta acoplados. En este caso de ejecución de la ETL se va ralentizar, al tener que depender la ejecución del proceso de calidad
+  * Dificulta la integración del componente de DataQuality con el proceso del pipeline. Al existir una dependencia dentro del workflow implica una mayor coordinación entre el desarrollo del pipeline con el componente DataQuality  
+  * Facilita la interacción del componente de DataQuality con el proceso del pipeline. En caso de querer detener la ejecución del proceso del pipeline en función de los resultados de los tests, este escenario simplificará esta tarea
+* **Síncrono Script.** Destacar las siguientes conclusiones:
+  * El proceso de la ETL y el componente DataQuality están fuertemente acoplados. En este caso de ejecución permite una mayor optimización de los recursos, por ejemplo, compartir los DataSet. De todos los escenarios posibles debería ser el que menos ralentice la ejecución.
+  * Dificulta la integración del componente DataQuality con el proceso del pipeline. Este escenario es el que está más acoplado, con lo cual, cualquier modificación del componente o pipeline tiene que coordinarse ya que puede afectar significativamente.
