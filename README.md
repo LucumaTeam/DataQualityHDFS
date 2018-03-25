@@ -102,12 +102,20 @@ Una vez cargada la información del Data Set en una tabla de HIVE y obtenida los
 
 Una vez establecida la prueba de concepto, vamos a diseñar e implementar en Python y Spark nuestro componente de DataQuality, este componente tiene que satisfacer los siguientes requerimientos:
 
-1. Establecer y calcular métricas sobre un DataSet
-2. Establecer y calcular tests en función de las métricas y el DataSet
-3. Cálcular las métricas y test sobre un DataSet de forma asíncrona y síncrona
-4. Detener la ejecución del pipeline en función de los resultados del test
-5. Disponer de los resultados de las métricas y resultados, también de los registros que han producido que el pipeline no continúe
-6. El componente deber ser reutilizable y extensible a otros proyectos que usen tecnologías BigData y HDFS
+1. **Establecer y calcular métricas sobre un DataSet.** Las métricas se ejecutarán para un dataset y un periodo. Este periodo estará asociado a la granularidad de procesamiento del dataset dentro del pipeline de la ETL. Los resultados de estas métricas estarán disponibles a nivel de lo que denominaremos interfaz. Está interfaz estará identificada por un dataset y periodo. Se podrán además añadir datasets adicionales, por ejemplo, para comprobar la integridad de los datos referenciales. Se consideran los siguientes aspectos de negocio:
+    * Las métricas se ejecutarán para un interfaz. Actualmente estamos procesando la ETL con granularidad o frecuencia diaria, pero podríamos querer ejecutar otros datasets con frecuencias diferentes
+    * Las métricas pueden ser a diferentes niveles:
+      * Columna
+      * Fichero
+      * Referenciales
+    * Las métricas deben ser agnósticas del dataset o periodo. Recibirán un DataFrame de Spark
+2. **Establecer y calcular tests en función de las métricas y el DataSet.** Los tests se ejecutarán para una serie de métricas asociadas a dataset y un periodo. Los tests usarán las métricas descritas anteriormente y en caso de tener umbrales, estos deberán ser parametrizables a nivel de dataset. Se consideran los siguientes aspectos de negocio:
+    * Los tests se ejecutarán para una interfaz
+    * Los tests no usaran los datasets directamente. Solamente métricas
+3. **Calcular las métricas y test sobre un DataSet de forma asíncrona y síncrona.** Se podrán ejecutar las metricas y tests de forma independiente al pipeline o dependiente del pipeline
+4. **Detener la ejecución del pipeline en función de los resultados del test.** En base a los resultados del test, se podrá decidir si se continua o no con la ejecución del pipeline. No todos los tests detendrán la ejecución, con lo cual este parámetro ha de ser parametrizable por configuración
+5. **Disponer de los resultados de las métricas y resultados.** Los resultados de las métricas y los tests han de estar disponibles para su consulta. Almacenar e identificar los registros que cumplen determinada métrica y han producido que le pipeline no continúe
+6. **Reusabilidad y extensibilidad del componente DataQuality.** El componente deber ser reutilizable y extensible a otros proyectos que usen tecnologías BigData y HDFS
 
 En el punto actual del desarrollo, hemos desarrollado e implementado los puntos 1, 2 y 3 de los requerimientos.
 A continuación, describiremos el diseño de clases necesarias para cubrir los requerimientos expuestos.
@@ -116,8 +124,8 @@ A continuación, describiremos el diseño de clases necesarias para cubrir los r
   * Granuralidades
   * Tablas
   
-*	**Granularity.** Clase abstracta que encapsula la granularidad de un data set. En esta versión se ha diseñado e implementado las siguiente granularidad:
-  * GranularityTemporal. Granularidades temporal, por ejemplo, los datos vienen a diario.
+*	**Granularity.** Clase abstracta que encapsula la granularidad de un data set. En esta versión se ha diseñado e implementado la siguiente granularidad:
+  * GranularityTemporal. Granularidades temporal, por ejemplo, los datos vienen a diario, con lo cual nos indicará el día, mes y año
 
 * **Table.** Clase que encapsula un DataSet, contiene tanto los datos como el esquema. Está compuesta por las siguientes propiedades:
   * DataFrame. Los datos del dataset, son cargados mediante un DataFrame de Spark
