@@ -16,7 +16,7 @@ class MetricExpressionNullValue(MetricExpression):
 
         if value is None:
             self._ok += 1
-            self._result_ok.append()
+            #self._result_ok.append()
         else:
             self._nok += 1
 

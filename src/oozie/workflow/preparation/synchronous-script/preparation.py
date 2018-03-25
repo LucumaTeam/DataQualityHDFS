@@ -48,7 +48,6 @@ landing_time = hivec.sql("select time from "+TableLanding+ " group by time order
 if landing_time.count() > 0:
     landing_time_to_Check = landing_time.first().time
     landing_time_import = hivec.sql("select * from "+TableLanding +" where time="+str(landing_time_to_Check))
-    
     column_metric_program = MetricExpressionNullValue(MetricColumn())
     test_column_metric = Test(15,TestRepresentationPercentage(),TestOperationMayor(),column_metric_program)
     columns = [Column('channel_id',Enum_Type.STRING,None),
