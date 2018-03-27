@@ -5,25 +5,25 @@ Desarrollo de un componente Data Quality capaz de procesar datos almacenados en 
 ## DataSet
 
 El dataset para realizar el analisis esta basado en la audiencias de televisión, está formado por los siguientes campos:
-* **channel ID:** channel id from 1 to 217.
-* **slot:** hour inside the week relative to the start of the view, from 1 to 24*7 = 168.
-* **week:** week from 1 to 19. Weeks 14 and 19 should not be used because they contain errors.
-* **genre ID:** it is the id of the genre, form 1 to 8. Genre/subgenre mapping is attached below.
-* **subGenre ID:** it is the id of the subgenre, from 1 to 114. Genre/subgenre mapping is attached below.
-* **user ID:** it is the id of the user.
-* **program ID:** it is the id of the program. The same program can occur multiple times (e.g. a tv show).
-* **event ID:** it is the id of the particular instance of a program. It is unique, but it can span multiple slots.
-* **duration:** duration of the view.
+* **channel ID:** Identificador del canal. Desde 1 a 217.
+* **slot:** Hora de la semana relacionada con el inicio de la vista. Desde 1 a 24*7 = 168.
+* **week:** Semana. Desde 1 a 19. Las semanas 14 y 19 no se usaran porque contienen errores.
+* **genre ID:** Identificador del genero de un programa que se visualiza.
+* **subGenre ID:** Identificador del subgenero de programa. Desde 1 a 114.
+* **user ID:** Identificador de usuario.
+* **program ID:** Identficador del programa. Un programa puede tener muchas visualizaciones (por ejemplo un programa de televisión).
+* **event ID:** Identificador de la instancia particular de un programa. Es único, pero puede abarcar múltiples slots.
+* **duration:** Duración de la visualización.
 
 ## KPI
 
 Una vez analizado el Data Set el siguiente paso es seleccionar un KPI para desarrollar metrica. El KPI es el número de minutos vistos de un programa en un canal por hora, tendra la siguientes columnas:
 
-* **program ID:** it is the id of the program. The same program can occur multiple times (e.g. a tv show).
-* **channel ID:** channel id from 1 to 217.
-* **slot:** hour inside the week relative to the start of the view, from 1 to 24*7 = 168.
-* **week:** week from 1 to 19. Weeks 14 and 19 should not be used because they contain errors.
-* **minutes:** total minutes.
+* **program ID:** Identficador del programa. Un programa puede tener muchas visualizaciones.
+* **channel ID:** Identificador del canal. Desde 1 a 217.
+* **slot:** Hora de la semana relacionada con el inicio de la vista. Desde 1 a 24*7 = 168.
+* **week:** Semana. Desde 1 a 19. Las semanas 14 y 19 no se usaran porque contienen errores.
+* **minutes:** Total de minutos.
 
 ## DataLake
 
