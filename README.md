@@ -18,6 +18,12 @@ El dataset para realizar el analisis esta basado en la audiencias de televisión
 * **event ID:** Identificador de la instancia particular de un programa. Es único, pero puede abarcar múltiples slots.
 * **duration:** Duración de la visualización.
 
+A continuación, una captura de los datos:
+
+<p align="left">
+<img width = "350" src="https://github.com/LucumaTeam/DataQualityHDFS/blob/master/src/images/dataset_captura.JPG">
+</p>
+
 ## KPI
 
 Una vez analizado el Data Set el siguiente paso es seleccionar un KPI para desarrollar metrica. El KPI es el número de minutos vistos de un programa en un canal por hora, tendra la siguientes columnas:
@@ -84,6 +90,12 @@ Este directorio debe tener el formato YYYY-MM-DD, donde esta fecha es el día qu
 El flujo de cargas de trabajo de procesamiento de datos generadas por los coordinadores y workflows anteriormente expuestos, será necesario encapsularlo. Este encapsulamiento de los coordinadores lo hemos logrado desarrollando un **Bundle** de oozie.
 
 El código de este bundle está disponible en el repositorio en la dirección [src/oozie/workflow/bundle/bundle.xml](https://github.com/LucumaTeam/DataQualityHDFS/blob/master/src/oozie/workflow/bundle/bundle.xml)
+
+A continuación, la representación gráfica del orquestador:
+
+<p align="left">
+<img width = "350" src="https://github.com/LucumaTeam/DataQualityHDFS/blob/master/src/images/oozie.JPG">
+</p>
 
 ## Métricas
 
@@ -170,6 +182,12 @@ A continuación, describiremos el diseño de clases necesarias para cubrir los r
     
 El código de este framework está disponible en el repositorio en la dirección [src/main/](https://github.com/LucumaTeam/DataQualityHDFS/tree/master/src/main) 
 
+A continuación, el diagrama de clases de la solución propuesta:
+
+<p align="left">
+<img src="https://github.com/LucumaTeam/DataQualityHDFS/blob/master/src/images/uml.png">
+</p>
+
 ## Prueba Framework DataQuality HDFS
 
 Una vez desarrollado nuestro componente de Data Quality, hay que realizar una serie de pruebas para verificar su correcto funcionamiento. Para la realización de estas pruebas hemos simulado la misma prueba de concepto que hemos descrito al inicio de este documento, donde:
@@ -205,6 +223,15 @@ El código de los scripts está contenido en las siguientes URL:
   * Asíncrono. [src/oozie/bundle/asynchronous](https://github.com/LucumaTeam/DataQualityHDFS/tree/master/src/oozie/bundle/asynchronous)
   * Síncrono Workflow. [src/oozie/bundle/synchronous-workflow](https://github.com/LucumaTeam/DataQualityHDFS/tree/master/src/oozie/bundle/synchronous-workflow)
   * Síncrono Script. [src/oozie/bundle/synchronous-script](https://github.com/LucumaTeam/DataQualityHDFS/tree/master/src/oozie/bundle/synchronous-script)
+
+A continuación, la representación gráfica de cada uno de los escenarios, de izquierda a derecha: Asíncrono, Síncrono Workflow, Síncrono Script
+
+<p align="center">
+<img width = "350" src="https://github.com/LucumaTeam/DataQualityHDFS/blob/master/src/images/oozie_asincrono.JPG">
+<img width = "250" src="https://github.com/LucumaTeam/DataQualityHDFS/blob/master/src/images/oozie_sincrono.JPG">
+<img width = "250" src="https://github.com/LucumaTeam/DataQualityHDFS/blob/master/src/images/oozie.JPG">
+</p>
+
 
 ## Conclusiones
 
