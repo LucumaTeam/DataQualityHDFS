@@ -45,7 +45,7 @@ La orquestación de las tareas necesarias para construir la ETL usa como tecnolo
   2. **hive_remake_landing.** Una vez el fichero está en directorio de la BBDD landing HIVE es necesario rehacer la tabla para que detecte la última partición creada.
   3. **dataset_fileload.** Genera un fichero SUCCESS en el directorio de HDFS que usan los datasets de Oozie. Este fichero lo usarán  los coodinadores asociados a estos procesos para que puedan ejecutar las tareas. Esta ruta tiene el formato HDFS/fileload/YYYY-MM-DD.
 
-  El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/fileload/workflow.xml
+  El código de este worflow está disponible en el repositorio en la dirección [src/oozie/workflow/fileload/workflow.xml](https://github.com/LucumaTeam/DataQualityHDFS/blob/master/src/oozie/workflow/fileload/workflow.xml)
 
 * **Preparación datos:** Workflow usado para cargar los datos almacenados en landing, validarlos, darles formato y almacenarlos en la base de datos preparation de HIVE. está compuesto por las siguientes acciones:
 
@@ -56,31 +56,31 @@ La orquestación de las tareas necesarias para construir la ETL usa como tecnolo
     
   2. **dataset_preparation** Genera un fichero SUCCESS en el directorio de HDFS que usan los datasets de Oozie. Este fichero lo usarán  los coodinadores asociados a estos procesos para que puedan ejecutar las tareas. Esta ruta tiene el formato HDFS/preparation/YYYY-MM-DD.
   
-  El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/preparation/workflow.xml
+  El código de este worflow está disponible en el repositorio en la dirección [src/oozie/workflow/preparation/workflow.xml](https://github.com/LucumaTeam/DataQualityHDFS/blob/master/src/oozie/workflow/preparation/workflow.xml)
 
 * **Generación KPI:** Workflow usado para generar los diferentes KPI's y almacenarlos en la base de datos KPI de HIVE. Por el momento el único KPI desarrollado es definido el apartado KPI de este documento. Esta desarrollado usando Spark 
 
-El código de este worflow está disponible en el repositorio en la dirección src/oozie/workflow/kpi/workflow.xml
+El código de este worflow está disponible en el repositorio en la dirección [src/oozie/workflow/kpi/workflow.xml](https://github.com/LucumaTeam/DataQualityHDFS/blob/master/src/oozie/workflow/kpi/workflow.xml) 
 
 Todos los workflows anteriormente expuestos será necesario planificarlos y ejecutarlos en función de diferentes eventos. Para lograr esto, será necesario el desarrollo de coordinadores que implementen está funcionalidad. Para nuestra ETL hemos desarrollado los siguientes coordinadores:
 
 * **Carga de fichero** Este coordinador se encarga de planificar la ejecución del workflow carga de fichero. Usa una planificación temporal, en concreto esta planificado para lanzarse una vez al día, ya que se espera que el fichero venga diariamente a una determinada hora.
 
-  El código de este coordinador está disponible en el repositorio en la dirección src/oozie/workflow/landing/coordinator.xml
+  El código de este coordinador está disponible en el repositorio en la dirección [src/oozie/workflow/landing/coordinator.xml](https://github.com/LucumaTeam/DataQualityHDFS/blob/master/src/oozie/workflow/landing/coordinator.xml) 
 
 * **Preparación de datos** Este coordinador se encarga de planificar la ejecución del workflow de preparación de datos. Usa una planificación basada en la disponibilidad de datos, en este caso espera que exista un fichero en un determinado directorio que tiene una especificación temporal. 
 Este directorio debe tener el formato YYYY-MM-DD, donde esta fecha es el día que debe ser ejecutado. Dentro de esta carpeta debe estar almacenado un fichero con el nombre SUCCESS, una vez se encuentre el fichero se puede ejecutar el proceso. Este fichero es encargado de generarlo la acción número 3 del workflow de carga de ficheros.
 
-  El código de este coordinador está disponible en el repositorio en la dirección src/oozie/workflow/preparation/coordinator.xml
+  El código de este coordinador está disponible en el repositorio en la dirección [src/oozie/workflow/preparation/coordinator.xml](https://github.com/LucumaTeam/DataQualityHDFS/blob/master/src/oozie/workflow/preparation/coordinator.xml)
 
 * **Generar KPI** Este coordinador se encarga de generar el KPI. Usa una planificación basada en la disponibilidad de datos, en este caso espera que exista un fichero en un determinado directorio que tiene una especificación temporal. 
 Este directorio debe tener el formato YYYY-MM-DD, donde esta fecha es el día que debe ser ejecutado. Dentro de esta carpeta debe estar almacenado un fichero con el nombre SUCCESS, una vez se encuentre el fichero se puede ejecutar el proceso. Este fichero es encargado de generarlo la acción número 2 del workflow de preparación de datos.
 
-  El código de este coordinador está disponible en el repositorio en la dirección src/oozie/workflow/kpi/coordinator.xml
+  El código de este coordinador está disponible en el repositorio en la dirección [src/oozie/workflow/kpi/coordinator.xml](https://github.com/LucumaTeam/DataQualityHDFS/blob/master/src/oozie/workflow/kpi/coordinator.xml)
   
 El flujo de cargas de trabajo de procesamiento de datos generadas por los coordinadores y workflows anteriormente expuestos, será necesario encapsularlo. Este encapsulamiento de los coordinadores lo hemos logrado desarrollando un **Bundle** de oozie.
 
-El código de este bundle está disponible en el repositorio en la dirección src/oozie/workflow/bundle/bundle.xml
+El código de este bundle está disponible en el repositorio en la dirección [src/oozie/workflow/bundle/bundle.xml](https://github.com/LucumaTeam/DataQualityHDFS/blob/master/src/oozie/workflow/bundle/bundle.xml)
 
 ## Métricas
 
@@ -100,10 +100,10 @@ Una vez cargada la información del Data Set en una tabla de HIVE y obtenida los
 
 ## Framework DataQuality HDFS
 
-Una vez establecida la prueba de concepto, vamos a diseñar e implementar en Python y Spark nuestro componente de DataQuality, este componente tiene que satisfacer los siguientes requerimientos:
+Una vez establecido el alcance y propósito de la prueba de concepto, vamos a diseñar e implementar en Python y Spark nuestro componente de DataQuality, este componente tiene que satisfacer los siguientes requerimientos:
 
-1. **Establecer y calcular métricas sobre un DataSet.** Las métricas se ejecutarán para un dataset y un periodo. Este periodo estará asociado a la granularidad de procesamiento del dataset dentro del pipeline de la ETL. Los resultados de estas métricas estarán disponibles a nivel de lo que denominaremos interfaz. Está interfaz estará identificada por un dataset y periodo. Se podrán además añadir datasets adicionales, por ejemplo, para comprobar la integridad de los datos referenciales. Se consideran los siguientes aspectos de negocio:
-    * Las métricas se ejecutarán para un interfaz. Actualmente estamos procesando la ETL con granularidad o frecuencia diaria, pero podríamos querer ejecutar otros datasets con frecuencias diferentes
+1. **Definir y calcular métricas sobre un DataSet.** Las métricas se ejecutarán para un dataset y en un periodo. Este periodo estará asociado a la granularidad de procesamiento del dataset dentro del pipeline de la ETL. Los resultados de estas métricas estarán disponibles a nivel de lo que denominaremos interfaz. Está interfaz estará identificada por un dataset y periodo. Se podrán además referenciar a otros datasets, por ejemplo, para comprobar la integridad de los datos referenciales. Se consideran los siguientes aspectos de negocio:
+    * Las métricas se ejecutarán para un interfaz. Actualmente estamos procesando la ETL con granularidad o frecuencia diaria, pero podríamos querer ejecutar otros datasets con frecuencias diferentes.
     * Las métricas pueden ser a diferentes niveles:
       * Columna
       * Fichero
@@ -111,11 +111,11 @@ Una vez establecida la prueba de concepto, vamos a diseñar e implementar en Pyt
     * Las métricas deben ser agnósticas del dataset o periodo. Recibirán un DataFrame de Spark
 2. **Establecer y calcular tests en función de las métricas y el DataSet.** Los tests se ejecutarán para una serie de métricas asociadas a dataset y un periodo. Los tests usarán las métricas descritas anteriormente y en caso de tener umbrales, estos deberán ser parametrizables a nivel de dataset. Se consideran los siguientes aspectos de negocio:
     * Los tests se ejecutarán para una interfaz
-    * Los tests no usaran los datasets directamente. Solamente métricas
-3. **Calcular las métricas y test sobre un DataSet de forma asíncrona y síncrona.** Se podrán ejecutar las metricas y tests de forma independiente al pipeline o dependiente del pipeline
-4. **Detener la ejecución del pipeline en función de los resultados del test.** En base a los resultados del test, se podrá decidir si se continua o no con la ejecución del pipeline. No todos los tests detendrán la ejecución, con lo cual este parámetro ha de ser parametrizable por configuración
-5. **Disponer de los resultados de las métricas y resultados.** Los resultados de las métricas y los tests han de estar disponibles para su consulta. Almacenar e identificar los registros que cumplen determinada métrica y han producido que le pipeline no continúe
-6. **Reusabilidad y extensibilidad del componente DataQuality.** El componente deber ser reutilizable y extensible a otros proyectos que usen tecnologías BigData y HDFS
+    * Los tests no usaran los datasets directamente. Solamente métricas.
+3. **Calcular las métricas y test sobre un DataSet de forma asíncrona y síncrona.** Se podrán ejecutar las metricas y tests de forma independiente al pipeline o dentro del mismo.
+4. **Detener la ejecución del pipeline en función de los resultados del test.** En base a los resultados del test, se podrá decidir si se continua o no con la ejecución del pipeline. No todos los tests detendrán la ejecución, con lo cual este parámetro ha de ser parametrizable por configuración.
+5. **Disponer de los resultados de las métricas y resultados.** Los resultados de las métricas y los tests han de estar disponibles para su consulta. Almacenar e identificar los registros de interés para una determinada métrica y que puedan provocar que algún test no pase.
+6. **Reusabilidad y extensibilidad del componente DataQuality.** El componente deber ser reutilizable y extensible a otros proyectos que usen tecnologías BigData y HDFS.
 
 En el punto actual del desarrollo, hemos desarrollado e implementado los puntos 1, 2 y 3 de los requerimientos.
 A continuación, describiremos el diseño de clases necesarias para cubrir los requerimientos expuestos.
@@ -165,7 +165,7 @@ A continuación, describiremos el diseño de clases necesarias para cubrir los r
 * **TestService.** Clase que encapsular un servicio encargado de evaluar los tests de una interfaz. Presenta el siguiente método:
   * assert_tests. Método que evalúa los tests de una interfaz que recibe por parámetro
     
-El código de este framework está disponible en el repositorio en la dirección src/main/ 
+El código de este framework está disponible en el repositorio en la dirección [src/main/](https://github.com/LucumaTeam/DataQualityHDFS/tree/master/src/main) 
 
 ## Prueba Framework DataQuality HDFS
 
@@ -176,7 +176,7 @@ Una vez desarrollado nuestro componente de Data Quality, hay que realizar una se
 * **Metrica.** Seleccionaremos la métrica que nos indica el número de valores nulos que hay en la columna program ID del dataset
 * **Test.** El test evaluará si la métrica anterior supera el umbral del 15% de valores nulos
 
-Podemos ver un ejemplo de configuración de la anterior configuración en la siguiente dirección del repositorio src/Example/Test1.py
+Podemos ver un ejemplo de configuración de la anterior configuración en la siguiente dirección del repositorio [src/main/Example/Test1.py](https://github.com/LucumaTeam/DataQualityHDFS/tree/master/src/main/Example/Test1.py)
 
 Una vez establecida la configuración del framework, el tipo de métricas y tests que queremos realizar, tenemos que decidir en qué fase del pipeline lo inyectamos y el modo de ejecución del componente, en nuestro caso:
 
@@ -186,7 +186,7 @@ Una vez establecida la configuración del framework, el tipo de métricas y test
   * **Asíncrono.** En este modo de ejecución, el componente de DataQuality se ejecutará de forma independiente al pipeline del proceso de la ETL. Para implementar este modo de ejecución es necesario:
   
     * Desarrollo de un workflow que ejecute el script en python del componente de DataQuality
-    * Desarrollo de un coordinador que ejecute el workflow. La planificación está basada en la disponibilidad de datos, el mismo que orquestador descrito en el orquestado Preparación de datos.
+    * Desarrollo de un coordinador que ejecute el workflow. La planificación está basada en la disponibilidad de datos, el mismo que el  orquestador descrito en el orquestado de Preparación de datos.
     * Ampliar el bundle con el coordinador anterior
     
   * **Síncrono Workflow.** En este modo de ejecución, el componente de DataQuality se ejecutará unido al pipeline del proceso de la ETL, en este caso, como una etapa más dentro del Workflow. Para implementar este modo de ejecución es necesario:
@@ -199,9 +199,9 @@ Una vez establecida la configuración del framework, el tipo de métricas y test
     
 El código de los scripts está contenido en las siguientes URL:
 
-  * Asíncrono. src/oozie/bundle/asynchronous
-  * Síncrono Workflow. src/oozie/bundle/synchronous-workflow
-  * Síncrono Script. src/oozie/bundle/synchronous-script
+  * Asíncrono. [src/oozie/bundle/asynchronous](https://github.com/LucumaTeam/DataQualityHDFS/tree/master/src/oozie/bundle/asynchronous)
+  * Síncrono Workflow. [src/oozie/bundle/synchronous-workflow](https://github.com/LucumaTeam/DataQualityHDFS/tree/master/src/oozie/bundle/synchronous-workflow)
+  * Síncrono Script. [src/oozie/bundle/synchronous-script](https://github.com/LucumaTeam/DataQualityHDFS/tree/master/src/oozie/bundle/synchronous-script)
 
 ## Conclusiones
 
@@ -210,11 +210,11 @@ Una vez desplegados cada una de los escenarios planteados, las conclusiones y re
 * **Asíncrono.** Destacar las siguientes conclusiones:
   * Permite ejecutar de forma independiente el componente de la preparación de datos. Dependiendo de la configuración y recursos del cluster puede ralentizar la ejecución de la ETL o mantener los tiempos. En cualquier caso, va consumir más recursos, de forma que otros procesos de ejecución en el cluster se verán afectados.
   * Facilita el desarrollo e integración del componente de DataQuality con el pipeline. Al ejecutarse de forma independiente, permite que el desarrollo de la ETL y el componente DataQuality este desacoplados, facilitando las tareas de desarrollo, despliegue e integración 
-  * Dificulta la interacción del componente de DataQuality con el proceso de pipeline. En caso de querer detener la ejecución del proceso del pipeline en función de los resultados de los tests, este escenario va complicar esta interacción
+  * Dificulta la interacción del componente de DataQuality con el proceso de pipeline. En caso de querer detener la ejecución del proceso del pipeline en función de los resultados de los tests, este escenario va complicar esta interacción.
 * **Síncrono Workflow.** Destacar las siguientes conclusiones: 
-  * El proceso de la ETL y el componente DataQuality esta acoplados. En este caso de ejecución de la ETL se va ralentizar, al tener que depender la ejecución del proceso de calidad
-  * Dificulta la integración del componente de DataQuality con el proceso del pipeline. Al existir una dependencia dentro del workflow implica una mayor coordinación entre el desarrollo del pipeline con el componente DataQuality  
-  * Facilita la interacción del componente de DataQuality con el proceso del pipeline. En caso de querer detener la ejecución del proceso del pipeline en función de los resultados de los tests, este escenario simplificará esta tarea
+  * El proceso de la ETL y el componente DataQuality esta acoplados. En este caso de ejecución de la ETL se va ralentizar, al tener que depender la ejecución del proceso de calidad.
+  * Dificulta la integración del componente de DataQuality con el proceso del pipeline. Al existir una dependencia dentro del workflow implica una mayor coordinación entre el desarrollo del pipeline con el componente DataQuality. 
+  * Facilita la interacción del componente de DataQuality con el proceso del pipeline. En caso de querer detener la ejecución del proceso del pipeline en función de los resultados de los tests, este escenario simplificará esta tarea.
 * **Síncrono Script.** Destacar las siguientes conclusiones:
-  * El proceso de la ETL y el componente DataQuality están fuertemente acoplados. En este caso de ejecución permite una mayor optimización de los recursos, por ejemplo, compartir los DataSet. De todos los escenarios posibles debería ser el que menos ralentice la ejecución.
+  * El proceso de la ETL y el componente DataQuality están fuertemente acoplados. En este modo de ejecución permite una mayor optimización de los recursos, por ejemplo, compartir los DataSet y minimizar las escrituras a disco. De todos los escenarios posibles debería ser el que menos ralentice la ejecución de ambos: ETL + DataQuality.
   * Dificulta la integración del componente DataQuality con el proceso del pipeline. Este escenario es el que está más acoplado, con lo cual, cualquier modificación del componente o pipeline tiene que coordinarse ya que puede afectar significativamente.
