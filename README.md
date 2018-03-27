@@ -1,6 +1,9 @@
 # DataQualityHDFS
 
-Desarrollo de un componente Data Quality capaz de procesar datos almacenados en un Data Lake sobre HDFS
+La Calidad del Dato o Data Quality es la capacidad de una información de servir para un propósito. Cada vez más se recurre al uso de aplicaciones Big Data. Su éxito se debe a la capacidad de analizar enormes colecciones de datos o datasets que abren nuevas perspectivas comerciales. Diseñar un caso de uso novedoso, inteligente y no trivial para una determinada colección de datos no es suficiente para garantizar el éxito. Los datos son el actor principal: por lo tanto, es de suma importancia que los datos estén disponibles, sean
+completos y la calidad de dichos datos cumpla ciertos requisitos.
+
+Motivados por este escenario, proponemos el desarrollo de un componente Data Quality capaz de procesar datos almacenados en un Data Lake sobre HDFS
 
 ## DataSet
 
